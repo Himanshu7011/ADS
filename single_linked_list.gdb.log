@@ -1,3 +1,4 @@
+Note: Point to notice here is ptr i.e. head address is not changing which means there is no memory leak taking place here.
 Reading symbols from ./a.out...
 (gdb) b 16
 Breakpoint 1 at 0x11fc: file single_linked_list.c, line 16.
