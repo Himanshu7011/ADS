@@ -1,0 +1,78 @@
+GNU gdb (Ubuntu 12.0.90-0ubuntu1) 12.0.90
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./a.out...
+(gdb) b 15
+Breakpoint 1 at 0x11fc: file single_linked_list_wo_double_pointer.c, line 15.
+(gdb) run
+Starting program: /home/algorithms/a.out
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, insertStart (ptr=0x0, num=100) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb)
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x5555555596b0, num=90) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x5555555596d0, num=80) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x5555555596f0, num=70) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x555555559710, num=60) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x555555559730, num=50) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x555555559750, num=40) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x555555559770, num=30) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x555555559790, num=20) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+
+Breakpoint 1, insertStart (ptr=0x5555555597b0, num=10) at single_linked_list_wo_double_pointer.c:15
+15              struct node *newNode = (struct node *) malloc(sizeof(struct node));
+(gdb) c
+Continuing.
+Adding node:  100  90  80  70  60  50  40  30  20  10
+LinkedList: = 10 20 30 40 50 60 70 80 90 100
+Deleting node:  10  20  30  40  50  60  70  80  90  100
+[Inferior 1 (process 4528) exited normally]
+
