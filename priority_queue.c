@@ -8,9 +8,6 @@ typedef struct node
     int priority;
     struct node *next;
 } Node;
-void enqueue();
-void dequeue();
-void peek();
 
 void enqueue(Node **head, Node **tail, int data, int pri) {
 	
@@ -47,6 +44,7 @@ void dequeue(Node **head, Node **tail) {
 	Node *temp = *head;
 	Node *freeNode = NULL;
 	Node *backNode = NULL;
+	Node *backTemp = NULL;
 	int pri = 0;
 
 	if(*head == NULL)
@@ -70,20 +68,69 @@ void dequeue(Node **head, Node **tail) {
 	data = 20, priority = 4
 	data = 10, priority = 1
 */
+//                					 backTemp  freeNode
+//	|head| -> |60|3| -> |50|3| -> |40|1| -> |30|2| -> |20|4| -> |10|1| -> |NULL|
+
+
+//	|head| -> |60|3| -> |50|3| -> |30|2| -> |20|4| -> |NULL|
+
 	pri = temp->priority;
 	freeNode = temp;
-	printf("\n ============================================= \n");
-	while(backNode) {
-		if(pri > backNode->priority) {
-			pri = backNode->priority;
+	while(temp) {
+		if(pri > temp->priority) {
+			pri = temp->priority;
 			freeNode = temp;
-			printf("freeNode = %d, priority = %d\n", freeNode->data, freeNode->priority);
+			*head = temp;
+			backTemp =  backNode;
 		}
-		backNode = backNode->next;
+		backNode = temp;
 		temp = temp->next;
 	}
-	printf("\n ============================================= \n");
+
+	if(freeNode == NULL)
+		return;
+
+	if(freeNode->next == NULL) {
+		backNode->next = freeNode->next;
+		if(freeNode) {
+			printf("freeing_1 data = %d, priority = %d\n", freeNode->data, freeNode->priority);
+			free(freeNode);
+			*head = NULL;
+		}
+		return;
+	} else {
+		backTemp->next = freeNode->next;
+		if(freeNode) {
+			printf("freeing_2 data = %d, priority = %d\n", freeNode->data, freeNode->priority);
+			free(freeNode);
+			*head = NULL;
+		}
+		return;
+	}
+	printf("\n ===== END ===== \n");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void main ()
 {
@@ -94,7 +141,10 @@ void main ()
 	enqueue(&head, &tail, 40, 1);
 	enqueue(&head, &tail, 50, 3);
 	enqueue(&head, &tail, 60, 3);
-//	peek(head);
 	dequeue(&head, &tail);
 	peek(head);
+	dequeue(&head, &tail);
+	peek(head);
+	dequeue(&head, &tail);
+//	peek(head);
 }
