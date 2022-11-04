@@ -33,118 +33,124 @@ void enqueue(Node **head, Node **tail, int data, int pri) {
 
 void peek(Node *ptr) {
 
+	if(!ptr) {
+		printf("Queue is EMPTY\n");
+		return;
+	}
 	while(ptr) {
-		printf("data = %d, priority = %d\n", ptr->data, ptr->priority);
+		printf("|%d|%d| --> ", ptr->data, ptr->priority);
 		ptr = ptr->next;
 	}
-	printf("\n");
+	printf("NULL\n\n");
 }
 
-void dequeue(Node **head, Node **tail) {
+void dequeue(Node **head) {
 	Node *temp = *head;
-	Node *freeNode = NULL;
-	Node *backNode = NULL;
-	Node *backTemp = NULL;
 	int pri = 0;
+	Node *freeNode = NULL;
+	Node *freeBack = NULL;
+	Node *b = *head;
+	Node *f = *head;
 
-	if(*head == NULL)
-		return;
-	else {
-		backNode = temp;
-		temp = temp->next;
-	}
-
-	if(*head == *tail) {
-		free(*head);
-		*head = NULL;
-		*tail = NULL;
+	if(*head == NULL) {
+		printf("Queue is EMPTY\n");
 		return;
 	}
-/*
-	data = 60, priority = 3
-	data = 50, priority = 3
-	data = 40, priority = 1
-	data = 30, priority = 2
-	data = 20, priority = 4
-	data = 10, priority = 1
-*/
-//                					 backTemp  freeNode
-//	|head| -> |60|3| -> |50|3| -> |40|1| -> |30|2| -> |20|4| -> |10|1| -> |NULL|
+	 fN Fb
+	  b f         
+// 	|60|6| --> |50|2| --> |40|3| --> |30|4| --> |20|5| --> NULL
 
-
-//	|head| -> |60|3| -> |50|3| -> |30|2| -> |20|4| -> |NULL|
-
-	pri = temp->priority;
-	freeNode = temp;
-	while(temp) {
-		if(pri > temp->priority) {
-			pri = temp->priority;
-			freeNode = temp;
-			*head = temp;
-			backTemp =  backNode;
+	while(f) {
+		if(pri <= f->priority) {
+			pri = f->priority;
+			freeNode = f;
+			freeBack = b;
 		}
-		backNode = temp;
-		temp = temp->next;
+		if(f != b)
+			b = b->next;
+		f = f->next;
+	}	
+
+	/* To take care of the priority queue when only one node is pending. */
+	if(freeBack == *head) {
+		*head = freeNode->next;
+		printf("freeing_1 %d pri %d\n", freeNode->data, freeNode->priority);
+		free(freeNode);
+		freeNode = NULL;
+		return;
 	}
 
-	if(freeNode == NULL)
-		return;
-
-	if(freeNode->next == NULL) {
-		backNode->next = freeNode->next;
-		if(freeNode) {
-			printf("freeing_1 data = %d, priority = %d\n", freeNode->data, freeNode->priority);
-			free(freeNode);
-			*head = NULL;
-		}
-		return;
-	} else {
-		backTemp->next = freeNode->next;
-		if(freeNode) {
-			printf("freeing_2 data = %d, priority = %d\n", freeNode->data, freeNode->priority);
-			free(freeNode);
-			*head = NULL;
-		}
-		return;
-	}
-	printf("\n ===== END ===== \n");
+	freeBack->next = freeNode->next;
+	printf("freeing_2 %d pri %d\n", freeNode->data, freeNode->priority);
+	free(freeNode);
+	freeNode = NULL;
+	freeBack = NULL;
+//	peek(*head);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void main ()
 {
+	int i = 0, x, num, loopBreaker = 1, priority;
 	Node *head = NULL, *tail = NULL;
-	enqueue(&head, &tail, 10, 1);
-	enqueue(&head, &tail, 20, 4);
-	enqueue(&head, &tail, 30, 2);
-	enqueue(&head, &tail, 40, 1);
-	enqueue(&head, &tail, 50, 3);
-	enqueue(&head, &tail, 60, 3);
-	dequeue(&head, &tail);
+
+	enqueue(&head, &tail, 10, 6);
+	enqueue(&head, &tail, 20, 5);
+	enqueue(&head, &tail, 30, 4);
+	enqueue(&head, &tail, 40, 3);
+	enqueue(&head, &tail, 50, 2);
+	enqueue(&head, &tail, 60, 6);
 	peek(head);
-	dequeue(&head, &tail);
-	peek(head);
-	dequeue(&head, &tail);
-//	peek(head);
+	dequeue(&head);
+	dequeue(&head);
+	dequeue(&head);
+	dequeue(&head);
+	dequeue(&head);
+	dequeue(&head);
+	return;
+
+	/* Create head point to point to head of the linked list. */
+	while(loopBreaker) {
+		printf("Enter your choice:\n   1. Insert an element in Circular linked list\n   2. Delete an element in Circular linked list\n   3. Print Circular linked list\n   4. Exit\n");
+		scanf("%d", &x);
+
+		switch(x) {
+			case 1:
+				printf("Enter a num: ");
+				scanf("%d", &num);
+				printf("Enter priority: ");
+				scanf("%d", &priority);
+				enqueue(&head, &tail, num, priority);
+				printf("\nElexment %d added.\n", num);
+				break;
+
+			case 2:
+				dequeue(&head);
+				break;
+
+			case 3:
+				peek(head);
+				break;
+			case 4:
+			default:
+				loopBreaker = 0;
+				printf("**** Invalid input ****\n");
+				break;
+		}
+	}
+
+	/* Test data set   
+	   enqueue(&head, &tail, 10, 6);
+	   enqueue(&head, &tail, 20, 5);
+	   enqueue(&head, &tail, 30, 4);
+	   enqueue(&head, &tail, 40, 3);
+	   enqueue(&head, &tail, 50, 2);
+	   enqueue(&head, &tail, 60, 1);
+	   peek(head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   */
 }
