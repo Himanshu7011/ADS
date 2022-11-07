@@ -56,10 +56,8 @@ void dequeue(Node **head) {
 		printf("Queue is EMPTY\n");
 		return;
 	}
-	 fN Fb
-	  b f         
-// 	|60|6| --> |50|2| --> |40|3| --> |30|4| --> |20|5| --> NULL
 
+	/* Iterating through list to find the node with highest priority */
 	while(f) {
 		if(pri <= f->priority) {
 			pri = f->priority;
@@ -71,42 +69,34 @@ void dequeue(Node **head) {
 		f = f->next;
 	}	
 
-	/* To take care of the priority queue when only one node is pending. */
-	if(freeBack == *head) {
+
+	/* To delete the first nodes */
+	if((freeNode == *head) && (freeBack == *head)) {
 		*head = freeNode->next;
-		printf("freeing_1 %d pri %d\n", freeNode->data, freeNode->priority);
 		free(freeNode);
-		freeNode = NULL;
+		peek(*head);
 		return;
 	}
 
+	/* To delete the end nodes */
+	if(freeNode->next == NULL) {
+		freeBack->next = freeNode->next;
+		free(freeNode);
+		peek(*head);
+		return;
+	}
+
+	/* To delete the middle nodes */
 	freeBack->next = freeNode->next;
-	printf("freeing_2 %d pri %d\n", freeNode->data, freeNode->priority);
 	free(freeNode);
-	freeNode = NULL;
-	freeBack = NULL;
-//	peek(*head);
+	peek(*head);
+	return;
 }
 
 void main ()
 {
 	int i = 0, x, num, loopBreaker = 1, priority;
 	Node *head = NULL, *tail = NULL;
-
-	enqueue(&head, &tail, 10, 6);
-	enqueue(&head, &tail, 20, 5);
-	enqueue(&head, &tail, 30, 4);
-	enqueue(&head, &tail, 40, 3);
-	enqueue(&head, &tail, 50, 2);
-	enqueue(&head, &tail, 60, 6);
-	peek(head);
-	dequeue(&head);
-	dequeue(&head);
-	dequeue(&head);
-	dequeue(&head);
-	dequeue(&head);
-	dequeue(&head);
-	return;
 
 	/* Create head point to point to head of the linked list. */
 	while(loopBreaker) {
@@ -152,5 +142,48 @@ void main ()
 	   dequeue(&head);
 	   dequeue(&head);
 	   dequeue(&head);
-	   */
+
+	   enqueue(&head, &tail, 10, 6);
+	   enqueue(&head, &tail, 20, 5);
+	   enqueue(&head, &tail, 30, 4);
+	   enqueue(&head, &tail, 40, 3);
+	   enqueue(&head, &tail, 50, 2);
+	   enqueue(&head, &tail, 60, 6);
+	   peek(head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+
+	   enqueue(&head, &tail, 10, 6);
+	   enqueue(&head, &tail, 20, 5);
+	   enqueue(&head, &tail, 30, 4);
+	   enqueue(&head, &tail, 40, 3);
+	   enqueue(&head, &tail, 50, 2);
+	   enqueue(&head, &tail, 60, 1);
+	   peek(head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+
+	   enqueue(&head, &tail, 10, 4);
+	   enqueue(&head, &tail, 20, 2);
+	   enqueue(&head, &tail, 30, 6);
+	   enqueue(&head, &tail, 40, 1);
+	   enqueue(&head, &tail, 50, 9);
+	   enqueue(&head, &tail, 60, 1);
+	   peek(head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+	   dequeue(&head);
+
+*/
 }
