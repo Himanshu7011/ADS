@@ -68,7 +68,9 @@ int main()
 {
         int i = 0, x = 100;
         struct node *head = NULL; /* Create head point to point to head of the linked list. */
-	insertStart(&head, 4);
+	
+	insertStart(&head, 5);
+	insertStart(&head, 5);
 	insertStart(&head, 4);
 	insertStart(&head, 3);
 	insertStart(&head, 3);
@@ -78,5 +80,5 @@ int main()
 
 	removeDuplicateElements(&head);
         traverseNode(head);
-        printf("\n");
+        printf("\n");	
 }
