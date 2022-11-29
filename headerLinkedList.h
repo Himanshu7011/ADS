@@ -8,26 +8,23 @@ typedef struct L0 {
 }mainList;
 
 typedef struct L1 {
+	int rand;
 	mainList *addr;
 	struct L1 *next;
 }L1;
 
 typedef struct L2 {
+	int rand;
 	mainList *addr;
-	struct L1 *next;
+	struct L2 *next;
 }L2;
 
 
 typedef struct L3 {
+	int rand;
 	mainList *addr;
-	struct L1 *next;
+	struct L3 *next;
 }L3;
-
-typedef struct flipCoin {
-	int ht;
-	struct flipCoin *next;
-}COIN;
-
 
 int flip()
 {
@@ -38,26 +35,20 @@ int flip()
 		return 1;
 }
 
-void read_ints (const char* file_name, mainList **hptr, COIN **hcoin)
+void read_ints (const char* file_name, mainList **hptr)
 {
 	FILE* file = fopen (file_name, "r");
 	mainList *temp = *hptr, *newNode = NULL;
-	COIN *hdNode = NULL;
-	COIN *coinTemp = *hcoin;
 	int i = 0;
 
 	fscanf (file, "%d", &i);	
 	while (fscanf (file, "%d", &i) == 1)
 	{  
 		temp = *hptr;
-		coinTemp = *hcoin;
 		newNode = (mainList *)malloc(sizeof(mainList));
 		memset(newNode, 0, sizeof(mainList));
-		hdNode = (COIN *)malloc(sizeof(COIN));
-		memset(hdNode, 0, sizeof(COIN));
 
 		newNode->data = i;
-		hdNode->ht = flip();
 
 		if(*hptr == NULL) {
 			*hptr = newNode;
@@ -65,32 +56,63 @@ void read_ints (const char* file_name, mainList **hptr, COIN **hcoin)
 			*hptr = newNode;
 			newNode->next = temp;
 		}
-
-		if(*hcoin == NULL) {
-			*hcoin = hdNode;
-		} else {
-			*hcoin = hdNode;
-			hdNode->next = coinTemp;
-		}
 	}
 	fclose (file);        
 }
 
-void traverse(mainList *ptr, COIN *cptr)
+void traverse(mainList *ptr)
 {
 	while(ptr) {
-		printf("| %d || %d |  -->  ", ptr->data, cptr->ht);
+		printf("| %d |  -->  ", ptr->data);
 		ptr = ptr->next;
-		cptr = cptr->next;
 	}
 	printf(" NULL\n");
 }
 
-void traverseL1(L1 *ptr, COIN *cptr)
+void traverseL1(L1 *ptr)
 {
 	while(ptr) {
-		printf("| %d | --> ", ptr->addr->data);
+		printf("| %d | %d | --> ", ptr->addr->data, ptr->rand);
 		ptr = ptr->next;
 	}
 	printf(" NULL\n");
+}
+
+
+void traverseL2(L2 *ptr)
+{
+	while(ptr) {
+		printf("| %d | %d | --> ", ptr->addr->data, ptr->rand);
+		ptr = ptr->next;
+	}
+	printf(" NULL\n");
+}
+
+
+void traverseL3(L3 *ptr)
+{
+	while(ptr) {
+		printf("| %d | %d | --> ", ptr->addr->data, ptr->rand);
+		ptr = ptr->next;
+	}
+	printf(" NULL\n");
+}
+
+void search(L3 *xyz, L2 *pqr, L1 *abc, int num) {
+
+	L3 *t3 = xyz;
+	L2 *t2 = pqr;
+	L1 *t1 = abc;
+
+	while(xyz) {
+		if(xyz->addr->data == num) {
+			printf("\n******** [%d] Found ********\n\n", num);
+			return;
+		} else if(xyz->addr->data < num) {
+			/* TBD */
+		} else {
+			/* TBD */
+		}
+		xyz = xyz->next;
+	}
 }
