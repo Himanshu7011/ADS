@@ -53,88 +53,70 @@ void l1Building(mainList *hptr, L1 **l1ptr)
 	}
 }
 
-void l2Binding(L1 *l1ptr, L2 **l2ptr)
+void search(L1 *lptr, int find) 
 {
-	L2 *l2temp = *l2ptr;
-	L2 *l2Tail = NULL;
-	L2 *newL2Node = NULL;
-	int rand = 0;
-
-	L1 *temp = l1ptr;
+	L1 *temp = lptr;
+	mainList *front = NULL;
+	mainList *back = NULL;
 
 	while(temp) {
-		
-		l2temp = *l2ptr;
-		if(rand = flip()) {
-			newL2Node = (L2 *)malloc(sizeof(L2));
-			memset(newL2Node, 0, sizeof(L2));
-			newL2Node->addr = temp->addr;	
-			newL2Node->rand = rand;
-			if(*l2ptr == NULL) {
-				*l2ptr = newL2Node;
-				l2Tail = newL2Node;
-			} else {
-				l2Tail->next = newL2Node;
-				l2Tail = l2Tail->next;
+		if(temp->addr->data == find) {
+			printf(" ***** FOUND [%d]\n", find);
+			return;
+		} else if(temp->next &&
+				(temp->addr->data < find) &&
+				(temp->next->addr->data > find)) { /* data < find */
+			back = temp->addr;
+			front = temp->next->addr;
+			while(back != front) {
+				if(back->data == find) {
+					printf(" ***** FOUND [%d]\n", find);
+					return;	
+				} else
+					back = back->next;
 			}
-		} 
+		} else if(temp->next == NULL) {
+			front = temp->addr;
+		        while(front) {
+				if(front->data == find) {
+					printf(" ***** FOUND [%d]\n", find);
+					return;
+				}
+				front = front->next;
+			}
+		}
 		temp = temp->next;
 	}
-}
-
-
-void l3Binding(L2 *l2ptr, L3 **l3ptr)
-{
-	L3 *l3temp = *l3ptr;
-	L3 *l3Tail = NULL;
-	L3 *newL3Node = NULL;
-	int rand = 0;
-
-	L2 *temp = l2ptr;
-
-	while(temp) {
-		
-		l3temp = *l3ptr;
-		if(rand = flip()) {
-			newL3Node = (L3 *)malloc(sizeof(L3));
-			memset(newL3Node, 0, sizeof(L3));
-			newL3Node->addr = temp->addr;	
-			newL3Node->rand = rand;
-			if(*l3ptr == NULL) {
-				*l3ptr = newL3Node;
-				l3Tail = newL3Node;
-			} else {
-				l3Tail->next = newL3Node;
-				l3Tail = l3Tail->next;
-			}
-		} 
-		temp = temp->next;
-	}
+	printf(" ***** NOT FOUND [%d]\n", find);
 }
 
 int main() {
 	mainList *headL0 = NULL;
 	L1 *headL1 = NULL;
-	L2 *headL2 = NULL;
-	L3 *headL3 = NULL;
-	int find = 0;
 
 	read_ints("linkedList.txt", &headL0);
 	sortedList(&headL0);
 
 	l1Building(headL0, &headL1);
-	printf("\n Main Linked List: \n");
-	traverse(headL0);
-	l2Binding(headL1, &headL2);
-	l3Binding(headL2, &headL3);
-	printf("\n L1 List: \n");
-	traverseL1(headL1);
-	printf("\n L2 List: \n");
-	traverseL2(headL2);
-	printf("\n L3 List: \n");
-	traverseL3(headL3);
-	printf("\n");
-	printf("Enter a number to find: ");
-	scanf("%d", &find);
-	search(headL3, headL2, headL1, find);
+	traverse(headL0, headL1);
+	search(headL1, 200);
+	search(headL1, 1);
+	search(headL1, 11);
+	search(headL1, 19);
+	search(headL1, 2);
+	search(headL1, 7);
+	search(headL1, 8);
+	search(headL1, 15);
+	search(headL1, 16);
+	search(headL1, 17);
+	search(headL1, 18);
+	search(headL1, 20);
+	search(headL1, 40);
+	search(headL1, 31);
+	search(headL1, 37);
+	search(headL1, 50);
+	search(headL1, 25);
+	search(headL1, 29);
+	search(headL1, 49);
+	printf("\n\n");
 }
